@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d3mywdjg7mc86"]
 
 [ext_resource type="Script" uid="uid://by51bp72nl7w8" path="res://Assets/Scripts/ResourceScripts/weapon.gd" id="1_swcir"]
-[ext_resource type="Texture2D" uid="uid://bfh6rffq2t738" path="res://Assets/Svg/icon.svg" id="2_o2wld"]
+[ext_resource type="Texture2D" uid="uid://dkjcxhpub5s3v" path="res://Assets/Images/Weapon/sword.png" id="2_t6d2r"]
 [ext_resource type="Texture2D" uid="uid://b8015csf8tow4" path="res://Assets/Svg/clock.svg" id="3_8xwfw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_swcir"]
@@ -13,19 +13,18 @@ script = ExtResource("1_swcir")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, 1)
-scale = Vector2(0.28125, 0.109375)
-texture = ExtResource("2_o2wld")
+position = Vector2(0, 2.38419e-07)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_t6d2r")
 
 [node name="Hitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-0.679691, -2.73667e-05)
 rotation = 1.57079
 shape = SubResource("RectangleShape2D_swcir")
 
 [node name="Sprite2D" type="Sprite2D" parent="Hitbox"]
-position = Vector2(-1.11678, 2.59987e-06)
+position = Vector2(3.8147e-06, 5.96046e-08)
 rotation = 1.57079
 scale = Vector2(1.5029, 0.367701)
 texture = ExtResource("3_8xwfw")

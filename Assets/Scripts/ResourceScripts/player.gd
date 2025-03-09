@@ -27,6 +27,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _physics_process(delta):
 	handle_gravity(delta)
 	handle_actions(delta)
+	handle_animation(delta)
 	move_and_slide()
 
 func handle_gravity(delta):
@@ -54,6 +55,7 @@ func handle_movement():
 			# Apply air factor to reduce movement speed while in the air
 			velocity.x = direction * (RUN_SPEED if is_running else WALK_SPEED)
 			$Sprite2D.flip_h = direction < 0
+			
 		elif not is_dashing and not is_walljumping:
 			# Smooth deceleration to 0 when not pressing any movement key
 			velocity.x = move_toward(velocity.x, 0, (RUN_SPEED if is_running else WALK_SPEED))
@@ -74,7 +76,9 @@ func handle_dashing(delta):
 		if is_on_floor():
 			# Ground dash in the direction the player is moving or facing
 			if direction_x == 0:
-				direction_x = sign(velocity.x)  # Maintain facing direction if no input
+				is_dashing = false
+				pass
+				#direction_x = sign(velocity.x)  # Maintain facing direction if no input
 			velocity.x = direction_x * dash_speed
 			velocity.y = 0  # No vertical movement on ground dash
 		else:
@@ -99,12 +103,21 @@ func handle_dashing(delta):
 func create_dash_trail():
 	var ghost = Sprite2D.new()
 	ghost.texture = $Sprite2D.texture
-	ghost.global_position = $Sprite2D.global_position
+	ghost.hframes = $Sprite2D.hframes
+	ghost.vframes = $Sprite2D.vframes
+	ghost.frame = 0
 	ghost.scale = $Sprite2D.scale
-	ghost.modulate = Color(1, 1, 1, 0.5)  # White with transparency
+	ghost.global_position = $Sprite2D.global_position
+	ghost.modulate = Color(1, 1, 1, 0.2)  # White with transparency
 	add_sibling(ghost)
 
 	var tween = get_tree().create_tween() # Does magic idk how this works
-	tween.tween_property(ghost, "modulate", Color(1, 1, 1, 0), 0.2)  # Fade
+	tween.tween_property(ghost, "modulate", Color(1, 1, 1, 0), 0.5)  # Fade
 	tween.tween_callback(ghost.queue_free)  # Delete after fade
-	
+
+func handle_animation(delta):
+		var direction = Input.get_axis("left", "right")
+		if direction != 0:
+			$AnimationPlayer.play("Run")
+		else:
+			$AnimationPlayer.play("Idle")

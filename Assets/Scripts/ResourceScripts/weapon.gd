@@ -6,9 +6,10 @@ var weapon_type = 1
 var timer : Timer
 var attack_time := 0.1
 var attacking = false
-var attack_distance := 25.0 # Distance from the player to the attack position
+var attack_distance := 32.0 # Distance from the player to the attack position
 var projectile : PackedScene = preload("res://Assets/Scenes/ResourceScenes/projectile.tscn") # Change to your actual projectile scene path
 var weapon_switch_cooldown = false
+var projectile_owner : Node2D
 
 func _on_hitbox_area_entered(area):
 	if area is HitboxComponent:
@@ -18,7 +19,8 @@ func _on_hitbox_area_entered(area):
 		attack.attack_damage = attack_damage
 		attack.knockback_force = knockback_force
 		attack.attack_position = global_position # Set later when attacking
-
+		attack.projectile_owner = projectile_owner
+		
 		hitbox.damage(attack)
 		
 func _ready():
@@ -34,12 +36,17 @@ func enable_attacking():
 	var mouse_position = get_global_mouse_position()
 	var attack_direction = (mouse_position - get_parent().global_position).normalized()
 	
+	projectile_owner = get_parent()
+	
 	# Offset based on player's position instead of the weapon itself
 	var attack_position = get_parent().global_position + attack_direction * attack_distance
 	
 	$Hitbox.global_position = attack_position
 	$Hitbox.rotation = attack_direction.angle()
-	
+	$Sprite2D.flip_h = attack_direction.x < 0
+	$Sprite2D.position.x = -16 if attack_direction.x < 0 else 15
+
+	get_parent().get_node("Sprite2D").flip_h = attack_direction.x < 0
 	# Enable attack
 	$Hitbox/CollisionShape2D.disabled = false
 	visible = true
