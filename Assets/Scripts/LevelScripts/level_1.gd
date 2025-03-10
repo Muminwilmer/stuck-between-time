@@ -2,7 +2,8 @@ extends Node2D
 
 func _ready():
 	toggle_time()
-
+	var resource = load("res://dialogue.dialogue")
+	$ExampleBalloon.start(resource, "start")
 func _process(delta):
 	if Input.is_action_just_pressed("timeswap"):
 		Global.oldTime = !Global.oldTime

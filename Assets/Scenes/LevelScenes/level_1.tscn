@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://b88jprey2q7t0"]
+[gd_scene load_steps=15 format=4 uid="uid://b88jprey2q7t0"]
 
 [ext_resource type="Script" uid="uid://bdgb1qifmq8mm" path="res://Assets/Scripts/LevelScripts/level_1.gd" id="1_acnw2"]
 [ext_resource type="Texture2D" uid="uid://c0swft8dwy5on" path="res://Assets/Images/Parallax/Old0.png" id="2_oithd"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bjr6jdhugapb7" path="res://Assets/Images/PlatformTileSheet/GrassTileSheet.png" id="6_uninn"]
 [ext_resource type="PackedScene" uid="uid://bqomyg8qgsbi7" path="res://Assets/Scenes/ResourceScenes/player.tscn" id="7_d27xu"]
 [ext_resource type="PackedScene" uid="uid://baj544l55h3wc" path="res://Assets/Scenes/MenuScenes/pause_menu.tscn" id="8_s8yx4"]
+[ext_resource type="PackedScene" uid="uid://dq3y7oyamuq4l" path="res://balloon.tscn" id="10_xd8g0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3jmcf"]
 texture = ExtResource("5_oubt7")
@@ -183,10 +184,11 @@ position = Vector2(50, 32)
 platform_floor_layers = 4294967043
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-offset = Vector2(0, 50)
 zoom = Vector2(2.5, 2.5)
 limit_bottom = 100
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("8_s8yx4")]
+
+[node name="ExampleBalloon" parent="." instance=ExtResource("10_xd8g0")]
