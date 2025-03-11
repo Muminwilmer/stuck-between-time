@@ -58,7 +58,7 @@ func spawn_projectile():
 	
 	temp_projectile.projectile_owner = get_parent()
 
-	var mouse_pos = get_global_mouse_position() + Vector2(0, -32)
+	var mouse_pos = get_global_mouse_position() #+ Vector2(0, -32)
 	var direction = (mouse_pos - global_position).normalized()
 	var shoot_speed = 500.0
 	

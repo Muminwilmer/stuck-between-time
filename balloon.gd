@@ -50,7 +50,10 @@ var mutation_cooldown: Timer = Timer.new()
 
 ## The menu of responses
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
-
+var sprites = {
+	"Player": "res://Assets/Images/Player/Player.png",
+	"Enemy": "res://Assets/Images/Enemies/hpzbmo.png"
+}
 
 func _ready() -> void:
 	balloon.hide()
@@ -130,7 +133,14 @@ func apply_dialogue_line() -> void:
 ## Go to the next line
 func next(next_id: String) -> void:
 	self.dialogue_line = await resource.get_next_dialogue_line(next_id, temporary_game_states)
+	update_sprite(dialogue_line)
 
+func update_sprite(dialogue_line):
+	if dialogue_line.character in sprites:
+		var sprite_path = sprites[dialogue_line.character]
+		$Balloon/Sprite2D.texture = load(sprite_path)
+	else:
+		print("Error: Character sprite not found for", dialogue_line.character)
 
 #region Signals
 
