@@ -16,6 +16,7 @@ size = Vector2(14, 22)
 resource_name = "Idle"
 length = 10.0
 loop_mode = 1
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -46,8 +47,9 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_dc0j8"]
 resource_name = "Run"
-length = 8.0
+length = 7.5993
 loop_mode = 1
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -81,6 +83,7 @@ vframes = 6
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_srdbq")
 
@@ -92,6 +95,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="Weapon" parent="." instance=ExtResource("3_exfu2")]
+visible = false
 position = Vector2(0, 3)
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_7n17v")]
