@@ -1,6 +1,9 @@
 extends Node2D
 class_name HealthComponent
 
+signal damage_taken(amount: float, position: Vector2)  # No direct connection
+signal died
+
 @export var maxHealth := 20.0
 var health : float
 
@@ -12,13 +15,8 @@ func damage(attack: Attack):
 		return
 	
 	health -= attack.attack_damage
-	
+	emit_signal("damage_taken", attack.attack_damage, get_parent().global_position) # Broadcast damage
+
 	if health <= 0:
-		get_parent().queue_free()  # Destroy the enemy
-	
-	# Apply knockback to the parent (which should be CharacterBody2D)
-	var parent = get_parent()
-	if parent is CharacterBody2D:
-		if parent.has_method("apply_knockback"):
-			var knockback_direction = (global_position - attack.attack_position).normalized()
-			parent.apply_knockback(knockback_direction * attack.knockback_force)
+		emit_signal("died")
+		get_parent().queue_free()

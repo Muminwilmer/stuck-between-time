@@ -1,6 +1,5 @@
 extends CharacterBody2D
+class_name ThrowingEnemy
 
-func apply_knockback(knockback_vector: Vector2):
-	print(knockback_vector)
-	velocity = knockback_vector
+func _physics_process(delta):
 	move_and_slide()
