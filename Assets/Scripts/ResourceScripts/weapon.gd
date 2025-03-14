@@ -75,15 +75,16 @@ func spawn_projectile():
 	temp_projectile.velocity = direction * shoot_speed
 	temp_projectile.rotation = temp_projectile.velocity.angle()
 
-func _unhandled_input(event):
+func _input(event):
 	if event.is_action_pressed("next_weapon") and not weapon_switch_cooldown:
 		weapon_type = (weapon_type + 1) % 2
 		weapon_switch_cooldown = true  # Lock the switch until released
 
 	if not event.is_action_pressed("next_weapon"):
 		weapon_switch_cooldown = false  # Release lock when button is released
-		
+	
 	if event.is_action_pressed("projectile"):
+		print(weapon_type)
 		match weapon_type:
 			0:
 				enable_attacking()

@@ -56,7 +56,7 @@ collision_above = NodePath("../../Above")
 metadata/_custom_type_script = "uid://coip35wbqo01c"
 
 [node name="Infront" type="RayCast2D" parent="."]
-target_position = Vector2(20, 4)
+target_position = Vector2(32, 4)
 
 [node name="Above" type="RayCast2D" parent="."]
-target_position = Vector2(20, -8)
+target_position = Vector2(32, -12)

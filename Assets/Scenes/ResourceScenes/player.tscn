@@ -83,7 +83,6 @@ vframes = 6
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_srdbq")
 
@@ -95,14 +94,12 @@ wait_time = 0.2
 one_shot = true
 
 [node name="Weapon" parent="." instance=ExtResource("3_exfu2")]
-visible = false
 position = Vector2(0, 3)
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_7n17v")]
 maxHealth = 10.03
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_kyrm7")]
-visible = false
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
