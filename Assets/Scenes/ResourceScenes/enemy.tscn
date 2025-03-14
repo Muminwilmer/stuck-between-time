@@ -1,9 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://4rvsftpmtks5"]
+[gd_scene load_steps=12 format=3 uid="uid://4rvsftpmtks5"]
 
 [ext_resource type="Script" uid="uid://djkupyf88oqna" path="res://Assets/Scripts/ResourceScripts/enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://dkjc3o2bmqwnx" path="res://Assets/Images/Enemies/hpzbmo.png" id="2_ee5cc"]
 [ext_resource type="PackedScene" uid="uid://c6c5ewdojb61k" path="res://Assets/Scenes/ClassComponents/health_component.tscn" id="3_ee5cc"]
 [ext_resource type="PackedScene" uid="uid://cm2vqosrr4fbm" path="res://Assets/Scenes/ClassComponents/hitbox_component.tscn" id="4_136sg"]
+[ext_resource type="PackedScene" uid="uid://b3vcq4xci0hlg" path="res://Assets/Scenes/ClassComponents/knockback_component.tscn" id="4_p55o3"]
+[ext_resource type="PackedScene" uid="uid://c5iy21xr74ee6" path="res://Assets/Scenes/ClassComponents/damage_popup_component.tscn" id="5_p55o3"]
+[ext_resource type="PackedScene" uid="uid://de7tau086ddv6" path="res://Assets/Scenes/ComponentChild/damage_label.tscn" id="6_m6c5i"]
+[ext_resource type="Script" uid="uid://gx3q65t1n3g7" path="res://Assets/Scenes/States/state_machine.gd" id="8_gqbj6"]
+[ext_resource type="Script" uid="uid://coip35wbqo01c" path="res://Assets/Scripts/States/enemy_idle.gd" id="9_b5r4x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iifgy"]
 size = Vector2(128, 139.636)
@@ -24,11 +29,34 @@ position = Vector2(0, 4)
 scale = Vector2(0.171875, 0.171875)
 shape = SubResource("RectangleShape2D_iifgy")
 
+[node name="DamagePopupComponent" parent="." instance=ExtResource("5_p55o3")]
+damage_label_scene = ExtResource("6_m6c5i")
+
 [node name="HealthComponent" parent="." instance=ExtResource("3_ee5cc")]
 
-[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_136sg")]
+[node name="KnockbackComponent" parent="." instance=ExtResource("4_p55o3")]
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component", "knockback_component") instance=ExtResource("4_136sg")]
 health_component = NodePath("../HealthComponent")
+knockback_component = NodePath("../KnockbackComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_ee5cc")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_gqbj6")
+initial_state = NodePath("EnemyIdle")
+
+[node name="EnemyIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "collision_infront", "collision_above")]
+script = ExtResource("9_b5r4x")
+enemy = NodePath("../..")
+collision_infront = NodePath("../../Infront")
+collision_above = NodePath("../../Above")
+metadata/_custom_type_script = "uid://coip35wbqo01c"
+
+[node name="Infront" type="RayCast2D" parent="."]
+target_position = Vector2(20, 4)
+
+[node name="Above" type="RayCast2D" parent="."]
+target_position = Vector2(20, -8)

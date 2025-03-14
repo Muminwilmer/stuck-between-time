@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5iy21xr74ee6"]
+
+[ext_resource type="Script" uid="uid://csqmxbonyscti" path="res://Assets/Scripts/ClassComponents/damage_popup_component.gd" id="1_r5lsa"]
+
+[node name="DamagePopupComponent" type="Node2D"]
+script = ExtResource("1_r5lsa")
