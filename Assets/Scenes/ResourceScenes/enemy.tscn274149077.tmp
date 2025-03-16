@@ -7,18 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://b3vcq4xci0hlg" path="res://Assets/Scenes/ClassComponents/knockback_component.tscn" id="4_p55o3"]
 [ext_resource type="PackedScene" uid="uid://c5iy21xr74ee6" path="res://Assets/Scenes/ClassComponents/damage_popup_component.tscn" id="5_p55o3"]
 [ext_resource type="PackedScene" uid="uid://de7tau086ddv6" path="res://Assets/Scenes/ComponentChild/damage_label.tscn" id="6_m6c5i"]
-[ext_resource type="Script" uid="uid://gx3q65t1n3g7" path="res://Assets/Scripts/States/state_machine.gd" id="8_gqbj6"]
+[ext_resource type="Script" uid="uid://gx3q65t1n3g7" path="res://Assets/Scenes/States/state_machine.gd" id="8_gqbj6"]
 [ext_resource type="Script" uid="uid://coip35wbqo01c" path="res://Assets/Scripts/States/enemy_idle.gd" id="9_b5r4x"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b5r4x"]
-size = Vector2(93.0909, 139.636)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iifgy"]
+size = Vector2(128, 139.636)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b412d"]
-radius = 6.0
-height = 22.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ee5cc"]
+size = Vector2(20, 22)
 
 [node name="Enemy" type="CharacterBody2D"]
-collision_layer = 8
 script = ExtResource("1_4gyqm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -27,9 +25,9 @@ texture = ExtResource("2_ee5cc")
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2.38419e-07, 4)
+position = Vector2(0, 4)
 scale = Vector2(0.171875, 0.171875)
-shape = SubResource("RectangleShape2D_b5r4x")
+shape = SubResource("RectangleShape2D_iifgy")
 
 [node name="DamagePopupComponent" parent="." instance=ExtResource("5_p55o3")]
 damage_label_scene = ExtResource("6_m6c5i")
@@ -44,20 +42,21 @@ knockback_component = NodePath("../KnockbackComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 position = Vector2(0, 4)
-shape = SubResource("CapsuleShape2D_b412d")
-debug_color = Color(0.964371, 7.70092e-07, 0.49316, 0.42)
+shape = SubResource("RectangleShape2D_ee5cc")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("8_gqbj6")
 initial_state = NodePath("EnemyIdle")
 
-[node name="EnemyIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+[node name="EnemyIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "collision_infront", "collision_above")]
 script = ExtResource("9_b5r4x")
 enemy = NodePath("../..")
+collision_infront = NodePath("../../Infront")
+collision_above = NodePath("../../Above")
 metadata/_custom_type_script = "uid://coip35wbqo01c"
 
 [node name="Infront" type="RayCast2D" parent="."]
-target_position = Vector2(10, 4)
+target_position = Vector2(20, 4)
 
 [node name="Above" type="RayCast2D" parent="."]
-target_position = Vector2(10, -8)
+target_position = Vector2(20, -8)
