@@ -30,6 +30,10 @@ func on_child_transitioned(state, new_state_name):
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
 		return
-	
+
 	if current_state:
 		current_state.exit()
+	
+	new_state.enter()
+	
+	current_state = new_state

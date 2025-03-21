@@ -178,9 +178,10 @@ tile_map_data = PackedByteArray("AAD2/wMAAAAEAAYAAAD3/wMAAAAGAAAAAAD4/wMAAAAGAAA
 tile_set = SubResource("TileSet_0rix5")
 
 [node name="Enemy" parent="." instance=ExtResource("5_vmram")]
-position = Vector2(-73, 27)
+position = Vector2(-200, 32)
 
 [node name="Player" parent="." instance=ExtResource("7_d27xu")]
+position = Vector2(-31, 35)
 platform_floor_layers = 4294967043
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -195,10 +196,7 @@ limit_bottom = 100
 visible = false
 
 [node name="Enemy2" parent="." instance=ExtResource("5_vmram")]
-position = Vector2(61, 11)
+position = Vector2(-386, 2)
 
 [node name="Enemy3" parent="." instance=ExtResource("5_vmram")]
-position = Vector2(57, -26)
-
-[node name="Enemy4" parent="." instance=ExtResource("5_vmram")]
-position = Vector2(88, 10)
+position = Vector2(-91, 10)

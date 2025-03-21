@@ -25,6 +25,7 @@ var dash_remain = 0.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _physics_process(delta):
+	$Sprite2D.flip_h = velocity.x < 0
 	handle_gravity(delta)
 	handle_actions(delta)
 	handle_animation(delta)
@@ -41,9 +42,6 @@ func handle_actions(delta):
 	if is_on_floor():
 		is_jumping = false
 		is_walljumping = false
-		
-	#handle_proj_charge(delta)
-	handle_dashing(delta)
 
 func handle_movement():
 	if not is_dashing:
@@ -66,54 +64,7 @@ func handle_jump():
 		velocity.y = JUMP_FORCE
 
 
-func handle_dashing(delta):
-	if Input.is_action_just_pressed("dash") and $DashDelay.is_stopped() and not dash_remain > dash_length:
-		is_dashing = true
-		
-		# Determine dash direction
-		var direction_x = Input.get_axis("left", "right")
-		
-		if is_on_floor():
-			# Ground dash in the direction the player is moving or facing
-			if direction_x == 0:
-				is_dashing = false
-				pass
-				#direction_x = sign(velocity.x)  # Maintain facing direction if no input
-			velocity.x = direction_x * dash_speed
-			velocity.y = 0  # No vertical movement on ground dash
-		else:
-			# Air dash upwards but maintain horizontal movement
-			if direction_x == 0:
-				direction_x = sign(velocity.x)  # Keep existing horizontal direction if moving
-			velocity.x = direction_x * dash_speed  # Keep moving in the same direction
-			velocity.y = -dash_speed * 0.5  # Upward boost (adjust multiplier for feel)
-		
-		
-	if is_dashing:
-		dash_remain += delta
-		create_dash_trail()
 
-	if is_dashing and dash_remain > dash_length:
-		is_dashing = false
-
-	if dash_remain > dash_length and is_on_floor():
-		dash_remain = 0.0
-		$DashDelay.start()
-	
-func create_dash_trail():
-	var ghost = Sprite2D.new()
-	ghost.texture = $Sprite2D.texture
-	ghost.hframes = $Sprite2D.hframes
-	ghost.vframes = $Sprite2D.vframes
-	ghost.frame = 0
-	ghost.scale = $Sprite2D.scale
-	ghost.global_position = $Sprite2D.global_position
-	ghost.modulate = Color(1, 1, 1, 0.2)  # White with transparency
-	add_sibling(ghost)
-
-	var tween = get_tree().create_tween() # Does magic idk how this works
-	tween.tween_property(ghost, "modulate", Color(1, 1, 1, 0), 0.5)  # Fade
-	tween.tween_callback(ghost.queue_free)  # Delete after fade
 
 func handle_animation(delta):
 		var direction = Input.get_axis("left", "right")
@@ -121,3 +72,6 @@ func handle_animation(delta):
 			$AnimationPlayer.play("Run")
 		else:
 			$AnimationPlayer.play("Idle")
+
+
+# Player.gd

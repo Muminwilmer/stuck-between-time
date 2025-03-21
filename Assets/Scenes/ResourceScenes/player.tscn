@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://bqomyg8qgsbi7"]
+[gd_scene load_steps=15 format=3 uid="uid://bqomyg8qgsbi7"]
 
 [ext_resource type="Script" uid="uid://c4dnvq1lwydie" path="res://Assets/Scripts/ResourceScripts/player.gd" id="1_wl18h"]
 [ext_resource type="Texture2D" uid="uid://baifju6c4hmci" path="res://Assets/Images/Player/Animation-SpriteSheet-Sheet.png" id="2_7n17v"]
 [ext_resource type="PackedScene" uid="uid://d3mywdjg7mc86" path="res://Assets/Scenes/ResourceScenes/weapon.tscn" id="3_exfu2"]
 [ext_resource type="PackedScene" uid="uid://c6c5ewdojb61k" path="res://Assets/Scenes/ClassComponents/health_component.tscn" id="4_7n17v"]
 [ext_resource type="PackedScene" uid="uid://cm2vqosrr4fbm" path="res://Assets/Scenes/ClassComponents/hitbox_component.tscn" id="5_kyrm7"]
+[ext_resource type="Script" uid="uid://gx3q65t1n3g7" path="res://Assets/Scripts/States/state_machine.gd" id="6_igya3"]
+[ext_resource type="Script" uid="uid://c0vw0te6wtytd" path="res://Assets/Scripts/States/player_walk.gd" id="7_cq0ki"]
+[ext_resource type="Script" uid="uid://cjfj8saicokp1" path="res://Assets/Scripts/States/player_dash.gd" id="8_bhtyn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_srdbq"]
 size = Vector2(14, 24)
@@ -83,7 +86,6 @@ vframes = 6
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_srdbq")
 
@@ -114,3 +116,18 @@ libraries = {
 &"": SubResource("AnimationLibrary_dc0j8")
 }
 speed_scale = 10.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_igya3")
+initial_state = NodePath("walk")
+metadata/_custom_type_script = "uid://cp70peb2tk8eq"
+
+[node name="walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("7_cq0ki")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://c0vw0te6wtytd"
+
+[node name="dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("8_bhtyn")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://cjfj8saicokp1"
